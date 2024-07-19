@@ -46,8 +46,8 @@ function searchSuggest(keyword: string) {
           type: 'group',
           label: type,
           key: type,
-          children: result[type].map((item: any) => {
-            return { label: item.name, value: `${type}-${item.name}` }
+          children: result[type].map((item: any, index: number) => {
+            return { label: item.name, value: `${type}-${index}-${item.name}` }
           })
         }
       })

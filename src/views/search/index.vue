@@ -49,8 +49,10 @@ function searchAll(keyword: string) {
 }
 
 const tabStyle = reactive({
-  style: 'font-weight: 700; font-size: 16px'
+  style: 'font-weight: 700;font-size: 20px'
 })
+
+const labelStyle = ref("font-family: '163Music'")
 
 onMounted(() => {
   searchKeyword.value = route.query.keyword as string
@@ -60,7 +62,7 @@ onMounted(() => {
 
 <template>
   <n-flex justify="center" class="h-full">
-    <n-tabs type="segment" animated class="w-11/12 h-full">
+    <n-tabs type="segment" animated class="w-11/12 h-full" :tab-style="labelStyle">
       <n-tab-pane name="comprehensive" tab="综合" :tab-props="tabStyle">
         <Comprehensive :page-data="allData" />
       </n-tab-pane>
@@ -86,6 +88,9 @@ onMounted(() => {
 <style lang="scss" scoped>
 .n-tabs-pane-wrapper {
   overflow-y: auto;
+}
+.n-tabs-tab__label {
+  font-family: '163Music';
 }
 .n-tab-pane {
   height: 100%;

@@ -47,3 +47,9 @@ const menuOptions: MenuOption[] = [
     :icon-size="24"
   ></n-menu>
 </template>
+
+<style lang="scss" scoped>
+.n-menu {
+  font-family: '163Music'
+}
+</style>

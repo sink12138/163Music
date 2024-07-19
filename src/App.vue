@@ -23,18 +23,7 @@ const theme = {
   </n-config-provider>
 </template>
 
-<style>
-html,
-body {
-  height: 100%;
-  width: 100%;
-  font-family: 'Fira code', '163Music';
-  font-size: 1em;
-}
-#app {
-  height: 100%;
-  width: 100%;
-}
+<style scoped>
 .n-config-provider {
   height: 100%;
   width: 100%;

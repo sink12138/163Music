@@ -11,13 +11,11 @@ defineProps<{
   <div class="song-card">
     <div class="left-pic"><img :src="song.al.picUrl" /></div>
     <div class="right-content">
-      <span class="title">{{ song.name }}</span>
-      <div class="artist">
+      <n-ellipsis class="title">{{ song.name }}</n-ellipsis>
+      <n-ellipsis class="artist" :tooltip="false">
         <n-button text>{{ song.ar[0].name }}</n-button>
-        <span v-for="artist in song.ar.slice(1)"
-          >/<n-button text>{{ artist.name }}</n-button></span
-        >
-      </div>
+        <n-button text v-for="artist in song.ar.slice(1)">/{{ artist.name }}</n-button>
+      </n-ellipsis>
       <div class="buttons">
         <n-button text>
           <template #icon>
@@ -62,17 +60,17 @@ defineProps<{
   .right-content {
     height: 100px;
     width: 120px;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     .title {
-      font-family: 'Fira code';
+      width: 100%;
+      padding: 0 4px;
       font-size: 14px;
-      text-overflow: ellipsis;
     }
-    .artist {
-      font-family: sans-serif;
+    .artist button {
       font-size: 12px;
     }
     .buttons {
