@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+@font-face {
+  font-family: '方正细金陵简体';
+  src: url('方正细金陵简体.ttf');
+}

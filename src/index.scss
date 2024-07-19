@@ -1,0 +1,20 @@
+::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #c0c4cc;
+}
+::-webkit-scrollbar-button {
+  height: 0px;
+  width: 0px;
+  background-color: #b0aeda;
+}
+
+.n-icon {
+  vertical-align: sub;
+}
