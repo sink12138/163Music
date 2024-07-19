@@ -14,7 +14,7 @@ export function suggestSearch(keyword: string) {
   return axios({
     url: '/search/suggest',
     method: 'get',
-    params: { keywords: keyword, type: 'mobile' }
+    params: { keywords: keyword }
   })
 }
 

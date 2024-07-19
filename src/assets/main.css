@@ -4,6 +4,7 @@
 @tailwind screens;
 
 @font-face {
-  font-family: '方正细金陵简体';
-  src: url('方正细金陵简体.ttf');
+  font-family: '163Music';
+  font-size: large;
+  src: url('163Music.ttf');
 }
