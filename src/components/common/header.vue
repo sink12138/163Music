@@ -3,7 +3,7 @@ import { NIcon, useMessage } from 'naive-ui'
 import { h, onMounted, reactive, ref, type Component } from 'vue'
 import { LibraryMusicOutlined, SearchRound, AccountCircleRound } from '@vicons/material'
 import router from '@/router'
-import { keywordSearch, defaultSearch, suggestSearch } from '@/service/search'
+import { defaultSearch, suggestSearch } from '@/service/search'
 
 const message = useMessage()
 function renderIcon(icon: Component) {
@@ -104,7 +104,7 @@ onMounted(() => {
       @select="selected = true"
     >
       <template #prefix>
-        <n-icon :component="SearchRound" />
+        <n-icon size="24" :component="SearchRound" />
       </template>
     </n-auto-complete>
     <n-icon class="mx-6" size="24" :component="AccountCircleRound" />

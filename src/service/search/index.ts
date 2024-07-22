@@ -6,7 +6,15 @@ export function keywordSearch(params: searchReq) {
   return axios({
     url: '/search',
     method: 'get',
-    params
+    params: params
+  })
+}
+
+export function keywordCloudSearch(params: searchReq) {
+  return axios({
+    url: '/cloudsearch',
+    method: 'get',
+    params: params
   })
 }
 

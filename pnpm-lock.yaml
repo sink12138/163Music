@@ -25,7 +25,7 @@ importers:
         specifier: ^20.1.4
         version: 20.1.4
       '@types/node':
-        specifier: ^20.14.5
+        specifier: ^20.14.11
         version: 20.14.11
       '@vicons/material':
         specifier: ^0.12.0
@@ -69,6 +69,9 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.3.3
+      province-city-china:
+        specifier: ^8.5.7
+        version: 8.5.7
       sass:
         specifier: ^1.77.8
         version: 1.77.8
@@ -478,6 +481,9 @@ packages:
   '@pkgr/core@0.1.1':
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@province-city-china/types@8.5.7':
+    resolution: {integrity: sha512-RZ1TX52jLevxx+00yLMzunHR2H6XIc7FY8C7qF0YUzXhYrRS4krqWSDY8kpq/76nonbp01ibif35wvmP3R+s4Q==}
 
   '@rollup/pluginutils@4.2.1':
     resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
@@ -1628,6 +1634,9 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  province-city-china@8.5.7:
+    resolution: {integrity: sha512-6snhGKmXBgNDJluFYVNgudIA+FWJjha+6/Lci/ZWBDDp3uPs5zFlErrfeTRfN182owSNDp9oF4/f6/qPoL9+Xw==}
+
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
@@ -2399,6 +2408,8 @@ snapshots:
     optional: true
 
   '@pkgr/core@0.1.1': {}
+
+  '@province-city-china/types@8.5.7': {}
 
   '@rollup/pluginutils@4.2.1':
     dependencies:
@@ -3580,6 +3591,10 @@ snapshots:
       fast-diff: 1.3.0
 
   prettier@3.3.3: {}
+
+  province-city-china@8.5.7:
+    dependencies:
+      '@province-city-china/types': 8.5.7
 
   proxy-from-env@1.1.0: {}
 

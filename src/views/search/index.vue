@@ -62,7 +62,14 @@ onMounted(() => {
 
 <template>
   <n-flex justify="center" class="h-full">
-    <n-tabs type="segment" animated class="w-11/12 h-full" :tab-style="labelStyle">
+    <n-tabs
+      type="segment"
+      animated
+      class="w-11/12 h-full"
+      :tab-style="labelStyle"
+      pane-wrapper-class="h-full"
+      pane-class="h-full"
+    >
       <n-tab-pane name="comprehensive" tab="综合" :tab-props="tabStyle">
         <Comprehensive :page-data="allData" />
       </n-tab-pane>
@@ -70,29 +77,19 @@ onMounted(() => {
         <SongResult :keyword="searchKeyword" />
       </n-tab-pane>
       <n-tab-pane name="playlist" tab="歌单" :tab-props="tabStyle">
-        <PlaylistResult :page-data="allData.playlist" />
+        <PlaylistResult :keyword="searchKeyword" />
       </n-tab-pane>
       <n-tab-pane name="artist" tab="歌手" :tab-props="tabStyle">
-        <ArtistResult :page-data="allData.artist" />
+        <ArtistResult :keyword="searchKeyword" />
       </n-tab-pane>
       <n-tab-pane name="album" tab="专辑" :tab-props="tabStyle">
-        <AlbumResult :page-data="allData.album" />
+        <AlbumResult :keyword="searchKeyword" />
       </n-tab-pane>
       <n-tab-pane name="user" tab="用户" :tab-props="tabStyle">
-        <UserResult :page-data="allData.user" />
+        <UserResult :keyword="searchKeyword" />
       </n-tab-pane>
     </n-tabs>
   </n-flex>
 </template>
 
-<style lang="scss" scoped>
-.n-tabs-pane-wrapper {
-  overflow-y: auto;
-}
-.n-tabs-tab__label {
-  font-family: '163Music';
-}
-.n-tab-pane {
-  height: 100%;
-}
-</style>
+<style lang="scss" scoped></style>

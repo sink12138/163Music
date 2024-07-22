@@ -42,19 +42,18 @@ defineProps<{
   height: 100px;
   width: 220px;
   display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  background-color: rgb(254 226 226);
-  border-radius: 0 6px 6px 0;
-  :hover {
-    background-color: rgb(254 202 202);
-    border-radius: 0 6px 6px 0;
-  }
-
+  background-color: rgb(245 245 244);
+  border-radius: 6px;
+  gap: 8px;
   .left-pic {
-    height: 100px;
-    width: 100px;
+    height: 72px;
+    width: 72px;
     img {
-      border-radius: 6px 0 0 6px;
+      opacity: 0.9;
+      border-radius: 25%;
     }
   }
   .right-content {
@@ -78,6 +77,14 @@ defineProps<{
       display: flex;
       justify-content: space-evenly;
     }
+  }
+}
+.song-card:hover {
+  background-color: rgb(254 202 202);
+  border-radius: 6px;
+  transition: 0.3s ease-in-out;
+  img {
+    opacity: 1;
   }
 }
 </style>
