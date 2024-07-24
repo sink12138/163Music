@@ -24,7 +24,6 @@ function searchPlaylist(keyword: string) {
     loading.value = true
     try {
       const result = (await keywordSearch(params)).data.result
-      console.log(result)
       hasMore.value = result.hasMore
       playlists.value.push(...result.playlists)
     } catch (error) {
@@ -36,10 +35,10 @@ function searchPlaylist(keyword: string) {
   fetchData()
 }
 function loadData() {
+  if (loading.value || !hasMore.value) return
   offset.value += limit.value
   searchPlaylist(props.keyword)
 }
-
 onMounted(() => {
   searchPlaylist(props.keyword)
 })

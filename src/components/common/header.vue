@@ -68,7 +68,7 @@ function goDetail() {}
 
 function handleUpdate() {
   if (!keyword.value) return
-  selected.value ? goDetail() : searchSuggest(keyword.value)
+  selected.value ? searchAll(keyword.value) : searchSuggest(keyword.value)
   selected.value = false
 }
 
@@ -95,13 +95,12 @@ onMounted(() => {
       :placeholder="defaultPlaceholder.showKeyword"
       :options="suggestOptions"
       :loading="loading"
-      blur-after-select
       round
       size="large"
       v-model:value="keyword"
       @update:value="handleUpdate"
       @keydown.enter="searchAll(keyword)"
-      @select="selected = true"
+      @select="(selected = true), handleUpdate"
     >
       <template #prefix>
         <n-icon size="24" :component="SearchRound" />

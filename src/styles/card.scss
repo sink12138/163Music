@@ -1,0 +1,52 @@
+.base-card {
+  height: 100px;
+  width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px dashed rgb(248 113 113);
+  background-color: rgb(254 242 242);
+  border-radius: 6px;
+  .left-pic {
+    height: 72px;
+    width: 72px;
+    img {
+      height: 72px;
+      width: 72px;
+      opacity: 0.9;
+      border-radius: 25%;
+    }
+  }
+  .right-content {
+    height: 100px;
+    width: 140px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    .title {
+      width: 100%;
+      padding: 0 4px;
+      font-size: 14px;
+      text-align: center;
+    }
+    .artist button {
+      font-size: 12px;
+    }
+    .buttons {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+    }
+  }
+}
+.base-card:hover {
+  background-color: rgb(254 202 202);
+  border-radius: 6px;
+  transition: 0.3s ease-in-out;
+  img {
+    opacity: 1;
+  }
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { keywordSearch } from '@/service/search'
 import Comprehensive from './components/comprehensive.vue'
@@ -25,9 +25,10 @@ const loading = ref<boolean>(false)
 function searchAll(keyword: string) {
   const params = reactive({
     keywords: keyword,
-    limit: 30,
+    limit: undefined,
     offset: undefined,
     type: 1018
+    // timestamp: new Date().getTime()
   })
   const fetchData = async () => {
     loading.value = true
@@ -48,11 +49,24 @@ function searchAll(keyword: string) {
   fetchData()
 }
 
-const tabStyle = reactive({
-  style: 'font-weight: 700;font-size: 20px'
-})
+const tab = ref('comprehensive')
 
+const updateValue = (val: any) => {
+  tab.value = val
+}
+
+const tabStyle = reactive({
+  style: 'font-weight: 700;font-size: 24px;'
+})
 const labelStyle = ref("font-family: '163Music'")
+
+watch(
+  () => route.query,
+  () => {
+    searchKeyword.value = route.query.keyword as string
+    searchAll(searchKeyword.value)
+  }
+)
 
 onMounted(() => {
   searchKeyword.value = route.query.keyword as string
@@ -63,29 +77,31 @@ onMounted(() => {
 <template>
   <n-flex justify="center" class="h-full">
     <n-tabs
-      type="segment"
       animated
-      class="w-11/12 h-full"
+      class="w-4/5 h-full"
       :tab-style="labelStyle"
+      justify-content="space-evenly"
       pane-wrapper-class="h-full"
       pane-class="h-full"
+      :value="tab"
+      @update:value="updateValue"
     >
-      <n-tab-pane name="comprehensive" tab="综合" :tab-props="tabStyle">
-        <Comprehensive :page-data="allData" />
+      <n-tab-pane name="comprehensive" tab="综 合" :tab-props="tabStyle">
+        <Comprehensive :page-data="allData" :loading="loading" @tab="(val) => updateValue(val)" />
       </n-tab-pane>
-      <n-tab-pane name="song" tab="单曲" :tab-props="tabStyle">
+      <n-tab-pane name="song" tab="单 曲" :tab-props="tabStyle">
         <SongResult :keyword="searchKeyword" />
       </n-tab-pane>
-      <n-tab-pane name="playlist" tab="歌单" :tab-props="tabStyle">
+      <n-tab-pane name="playlist" tab="歌 单" :tab-props="tabStyle">
         <PlaylistResult :keyword="searchKeyword" />
       </n-tab-pane>
-      <n-tab-pane name="artist" tab="歌手" :tab-props="tabStyle">
+      <n-tab-pane name="artist" tab="歌 手" :tab-props="tabStyle">
         <ArtistResult :keyword="searchKeyword" />
       </n-tab-pane>
-      <n-tab-pane name="album" tab="专辑" :tab-props="tabStyle">
+      <n-tab-pane name="album" tab="专 辑" :tab-props="tabStyle">
         <AlbumResult :keyword="searchKeyword" />
       </n-tab-pane>
-      <n-tab-pane name="user" tab="用户" :tab-props="tabStyle">
+      <n-tab-pane name="user" tab="用 户" :tab-props="tabStyle">
         <UserResult :keyword="searchKeyword" />
       </n-tab-pane>
     </n-tabs>

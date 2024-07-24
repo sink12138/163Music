@@ -17,14 +17,12 @@ function searchAlbum(keyword: string) {
     keywords: keyword,
     limit: limit.value,
     offset: offset.value,
-    type: 10,
-    timestamp: new Date().getTime()
+    type: 10
   })
   const fetchData = async () => {
     loading.value = true
     try {
       const result = (await keywordSearch(params)).data.result
-      console.log(result)
       hasMore.value = result.hasMore
       albums.value.push(...result.albums)
     } catch (error) {
@@ -36,6 +34,7 @@ function searchAlbum(keyword: string) {
   fetchData()
 }
 function loadData() {
+  if (loading.value || !hasMore.value) return
   offset.value += limit.value
   searchAlbum(props.keyword)
 }

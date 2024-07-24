@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { songDetail } from '@/service/song'
+import { userDetail } from '@/service/user'
 
 const route = useRoute()
-const songId = ref<string>('')
+const uid = ref<string>('')
 
 const loading = ref<boolean>(false)
 const info = reactive({ detail: {} })
-function getSongDetail(id: string) {
+function getUserDetail(id: string) {
   if (loading.value) return
   const fetchData = async () => {
     try {
       loading.value = true
-      const result = (await songDetail(id)).data
+      const result = (await userDetail(id)).data
       info.detail = result
     } catch (error) {
       console.warn('error', error)
@@ -25,8 +25,8 @@ function getSongDetail(id: string) {
 }
 
 onMounted(() => {
-  songId.value = route.query.id as string
-  getSongDetail(songId.value)
+  uid.value = route.query.id as string
+  getUserDetail(uid.value)
 })
 </script>
 

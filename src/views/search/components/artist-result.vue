@@ -23,7 +23,6 @@ function searchArtist(keyword: string) {
     loading.value = true
     try {
       const result = (await keywordSearch(params)).data.result
-      console.log(result)
       hasMore.value = result.hasMore
       artists.value = result.artists
     } catch (error) {

@@ -39,8 +39,7 @@
     .layout-content {
       width: 85%;
       overflow-y: auto;
-      padding: 20px;
-      background-color: rgb(245 245 244);
+      background-color: rgb(248 250 252);
     }
   }
   .layout-footer {
