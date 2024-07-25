@@ -7,3 +7,11 @@ export function userDetail(id: string) {
     params: { uid: id }
   })
 }
+
+export function personalFM() {
+  return axios({
+    url: '/personal_fm',
+    method: 'get',
+    params: { timestamp: new Date().getTime() }
+  })
+}

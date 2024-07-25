@@ -31,12 +31,13 @@ body {
   vertical-align: sub;
 }
 
-.n-spin-container {
-  height: 100%;
+.n-qr-code {
+  box-sizing: content-box;
 }
 
-.n-spin-content {
-  height: 100%;
+.font-music {
+  font-family: '163Music';
+  font-weight: bold;
 }
 
 img {

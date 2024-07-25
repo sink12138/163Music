@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <div class="base-card" @click="$router.push({ path: '/playlist', query: { id: playlist.id } })">
-    <div class="left-pic"><img :src="playlist.coverImgUrl" /></div>
+    <div class="left-pic"><img :src="playlist.coverImgUrl + '?param=72y72'" /></div>
     <div class="right-content">
       <n-ellipsis class="text-base">{{ playlist.name }}</n-ellipsis>
       <n-ellipsis class="text-xs">播放量: {{ getCounts(playlist.playCount) }}</n-ellipsis>

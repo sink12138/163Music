@@ -8,9 +8,9 @@ function renderIcon(icon: Component) {
 </script>
 
 <template>
-  <n-space justify="space-between" align="center" class="w-full h-12 bg-lime-50">
-    <n-space>Hello</n-space>
-    <n-space>Footer</n-space>
+  <n-space justify="space-between" align="center" class="w-full h-12 bg-red-200">
+    <n-space>Album</n-space>
+    <n-space>Player</n-space>
     <n-space>Menu</n-space>
   </n-space>
 </template>

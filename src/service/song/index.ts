@@ -16,3 +16,26 @@ export function songLike(params: likeReq) {
     params: params
   })
 }
+
+export function songPersonalized(limit?: number) {
+  return axios({
+    url: '/personalized/newsong',
+    method: 'get',
+    params: { limit: limit }
+  })
+}
+
+export function songsRecommend() {
+  return axios({
+    url: '/recommend/songs',
+    method: 'get'
+  })
+}
+
+export function songsTop(type: number = 0) {
+  return axios({
+    url: '/top/song',
+    method: 'get',
+    params: { type: type }
+  })
+}

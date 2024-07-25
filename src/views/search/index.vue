@@ -78,6 +78,7 @@ onMounted(() => {
   <n-flex justify="center" class="h-full">
     <n-tabs
       animated
+      type="line"
       class="w-4/5 h-full"
       :tab-style="labelStyle"
       justify-content="space-evenly"

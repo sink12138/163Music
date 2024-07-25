@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { albumDetail } from '@/service/album'
+import { albumContent } from '@/service/album'
 
 const route = useRoute()
 const albumId = ref<string>('')
 
 const loading = ref<boolean>(false)
 const info = reactive({ detail: {} })
-function getAlbumDetail(id: string) {
+function getAlbumContent(id: string) {
   if (loading.value) return
   const fetchData = async () => {
     try {
       loading.value = true
-      const result = (await albumDetail(id)).data
+      const result = (await albumContent(id)).data
       info.detail = result
     } catch (error) {
       console.warn('error', error)
@@ -26,7 +26,7 @@ function getAlbumDetail(id: string) {
 
 onMounted(() => {
   albumId.value = route.query.id as string
-  getAlbumDetail(albumId.value)
+  getAlbumContent(albumId.value)
 })
 </script>
 

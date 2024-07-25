@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { h } from 'vue'
 import type { Component } from 'vue'
 import type { MenuOption } from 'naive-ui'
 import { NMenu, NIcon } from 'naive-ui'
@@ -8,7 +8,8 @@ import {
   HomeRound as HomeIcon,
   ExploreRound as ExploreIcon,
   LeaderboardRound as LeaderboardIcon,
-  AccountBoxRound as UserIcon
+  AccountBoxRound as UserIcon,
+  AccessTimeFilledOutlined as AboutIcon
 } from '@vicons/material'
 
 function renderIcon(icon: Component) {
@@ -35,6 +36,11 @@ const menuOptions: MenuOption[] = [
     label: () => h(RouterLink, { to: { name: 'user' } }, { default: () => '我的' }),
     key: 'user',
     icon: renderIcon(UserIcon)
+  },
+  {
+    label: () => h(RouterLink, { to: { name: 'about' } }, { default: () => '计划' }),
+    key: 'about',
+    icon: renderIcon(AboutIcon)
   }
 ]
 </script>
@@ -42,7 +48,6 @@ const menuOptions: MenuOption[] = [
 <template>
   <n-menu
     :options="menuOptions"
-    default-value="home"
     class="text-xl font-bold w-full h-full py-6 bg-red-50"
     :icon-size="24"
   ></n-menu>
@@ -50,6 +55,6 @@ const menuOptions: MenuOption[] = [
 
 <style lang="scss" scoped>
 .n-menu {
-  font-family: '163Music'
+  font-family: '163Music';
 }
 </style>

@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { NIcon, useMessage } from 'naive-ui'
-import { h, onMounted, reactive, ref, type Component } from 'vue'
-import { LibraryMusicOutlined, SearchRound, AccountCircleRound } from '@vicons/material'
+import { NIcon } from 'naive-ui'
+import { onMounted, reactive, ref } from 'vue'
+import { SearchRound } from '@vicons/material'
 import router from '@/router'
 import { defaultSearch, suggestSearch } from '@/service/search'
-
-const message = useMessage()
-function renderIcon(icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
 
 const defaultPlaceholder = reactive({
   showKeyword: '',
@@ -64,8 +59,6 @@ function searchAll(keyword: string) {
   router.push({ path: '/search', query: { keyword: keyword } })
 }
 
-function goDetail() {}
-
 function handleUpdate() {
   if (!keyword.value) return
   selected.value ? searchAll(keyword.value) : searchSuggest(keyword.value)
@@ -78,34 +71,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <n-space
-    justify="space-between"
-    align="center"
-    class="w-full h-14 bg-red-100 border-red-400 border-b-4"
+  <n-auto-complete
+    :placeholder="defaultPlaceholder.showKeyword"
+    :options="suggestOptions"
+    :loading="loading"
+    round
+    v-model:value="keyword"
+    @update:value="handleUpdate"
+    @keydown.enter="searchAll(keyword)"
+    @select="(selected = true), handleUpdate"
   >
-    <n-space
-      class="mx-6 cursor-pointer hover:text-red-600"
-      align="center"
-      @click="router.push('./')"
-    >
-      <n-icon size="36" :component="LibraryMusicOutlined" />
-      <span class="text-xl font-bold">163Music</span>
-    </n-space>
-    <n-auto-complete
-      :placeholder="defaultPlaceholder.showKeyword"
-      :options="suggestOptions"
-      :loading="loading"
-      round
-      size="large"
-      v-model:value="keyword"
-      @update:value="handleUpdate"
-      @keydown.enter="searchAll(keyword)"
-      @select="(selected = true), handleUpdate"
-    >
-      <template #prefix>
-        <n-icon size="24" :component="SearchRound" />
-      </template>
-    </n-auto-complete>
-    <n-icon class="mx-6" size="24" :component="AccountCircleRound" />
-  </n-space>
+    <template #prefix>
+      <n-icon size="24" :component="SearchRound" />
+    </template>
+  </n-auto-complete>
 </template>

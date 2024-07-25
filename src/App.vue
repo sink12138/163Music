@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseLayout from './layouts/base-layout.vue'
-import Header from './components/common/header.vue'
+import Header from './components/common/header/index.vue'
 import Sider from './components/common/sider.vue'
 import Footer from './components/common/footer.vue'
 

@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <n-spin :show="loading">
+  <n-spin :show="loading" class="h-full" content-class="h-full">
     <n-space vertical class="h-full overflow-y-auto py-4" v-show="!loading">
       <n-space>
         <MoreInfoCard title="单 曲" :message="pageData.song.moreText" @click="$emit('tab', 'song')">
