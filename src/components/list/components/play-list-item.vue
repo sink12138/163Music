@@ -24,7 +24,7 @@ const hover = ref(false)
         </n-button>
         <span v-else>#{{ index + 1 }}</span>
       </div>
-      <n-avatar size="large" :src="item.coverImgUrl + '?param=72y72'" />
+      <n-avatar size="large" :src="item.coverImgUrl + '?param=144y144'" />
       <div class="item-info">
         <div class="item-title">
           <n-button text>{{ item.name }}</n-button>

@@ -30,19 +30,21 @@ const hover = ref(false)
           <n-icon> <PlayArrowRound /> </n-icon>
         </n-button>
       </div>
-      <n-avatar size="large" :src="item.al.picUrl + '?param=144y144'" />
+      <n-avatar size="large" :src="item.picUrl + '?param=144y144'" />
       <div class="item-info">
         <div class="item-title">
           <n-button text>{{ item.name }}</n-button>
         </div>
         <div class="item-description">
-          <span v-if="item.fee == 1" class="item-tag">VIP</span>
-          <span text v-for="(artist, arIndex) in item.ar">
-            <span v-if="arIndex != 0">/</span>
-            <n-button text>{{ artist.name }}</n-button>
-          </span>
-          <span> ——— </span>
-          <n-button text>{{ item.al.name }}</n-button>
+          <n-ellipsis :tooltip="false">
+            <span v-if="item.song.fee == 1" class="item-tag">VIP</span>
+            <span text v-for="(artist, arIndex) in item.song.artists">
+              <span v-if="arIndex != 0">/</span>
+              <n-button text>{{ artist.name }}</n-button>
+            </span>
+            <span> —— </span>
+            <n-button text>{{ item.song.album.name }}</n-button>
+          </n-ellipsis>
         </div>
       </div>
     </div>
@@ -61,7 +63,7 @@ const hover = ref(false)
       <n-button text style="font-size: 24px">
         <n-icon> <FavoriteBorderRound /> </n-icon>
       </n-button>
-      <div class="item-duration">{{ getDuration(item.dt) }}</div>
+      <div class="item-duration">{{ getDuration(item.song.duration) }}</div>
     </div>
   </div>
 </template>

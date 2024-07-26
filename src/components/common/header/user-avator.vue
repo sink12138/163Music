@@ -80,7 +80,7 @@ const handleLogout = async () => {
           class="mx-6 cursor-pointer"
           round
           size="large"
-          :src="authStore.getAvatar + '?param=72y72'"
+          :src="authStore.getAvatar + '?param=144y144'"
         />
       </template>
       <n-list hoverable clickable class="font-music avatar-menu">

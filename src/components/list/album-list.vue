@@ -13,7 +13,7 @@ defineProps<{
         <span style="padding: 0 40px 0 5px">##</span>
         <span>标题</span>
       </div>
-      <div class="w-2/5 flex justify-between">
+      <div class="w-7/20 flex justify-between">
         <span>作者</span>
         <span>时间</span>
       </div>

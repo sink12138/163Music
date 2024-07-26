@@ -24,7 +24,7 @@ const hover = ref(false)
           <n-icon> <PlayArrowRound /> </n-icon>
         </n-button>
       </div>
-      <n-avatar size="large" :src="item.picUrl + '?param=72y72'" />
+      <n-avatar size="large" :src="item.picUrl + '?param=144y144'" />
       <div class="item-info">
         <div class="item-title">
           <n-button text>{{ item.name }}</n-button>

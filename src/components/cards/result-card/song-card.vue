@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <div class="base-card" @click="$router.push({ path: '/song', query: { id: song.id } })">
     <div class="left-pic">
-      <img :src="song.al.picUrl + '?param=72y72'" />
+      <img :src="song.al.picUrl + '?param=144y144'" />
     </div>
     <div class="right-content">
       <n-ellipsis class="title">{{ song.name }}</n-ellipsis>

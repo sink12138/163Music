@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { keywordSearch } from '@/service/search'
-import Usercard from '@/components/card/user-card.vue'
+import Usercard from '@/components/cards/result-card/user-card.vue'
 const props = defineProps<{
   keyword: string
 }>()

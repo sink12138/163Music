@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import SongCard from '@/components/card/song-card.vue'
-import ArtistCard from '@/components/card/artist-card.vue'
-import PlaylistCard from '@/components/card/playlist-card.vue'
-import AlbumCard from '@/components/card/album-card.vue'
-import UserCard from '@/components/card/user-card.vue'
-import MoreInfoCard from '@/components/card/more-info-card.vue'
+import SongCard from '@/components/cards/result-card/song-card.vue'
+import ArtistCard from '@/components/cards/result-card/artist-card.vue'
+import PlaylistCard from '@/components/cards/result-card/playlist-card.vue'
+import AlbumCard from '@/components/cards/result-card/album-card.vue'
+import UserCard from '@/components/cards/result-card/user-card.vue'
+import MoreInfoCard from '@/components/cards/result-card/more-info-card.vue'
 import Divider from '@/components/common/divider.vue'
 import { onMounted } from 'vue'
 import {
@@ -28,7 +28,7 @@ onMounted(() => {
 
 <template>
   <n-spin :show="loading" class="h-full" content-class="h-full">
-    <n-space vertical class="h-full overflow-y-auto py-4" v-show="!loading">
+    <n-space vertical class="h-full overflow-y-auto" v-show="!loading">
       <n-space>
         <MoreInfoCard title="单 曲" :message="pageData.song.moreText" @click="$emit('tab', 'song')">
           <template #icon>

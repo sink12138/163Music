@@ -79,7 +79,7 @@ onMounted(() => {
     <n-tabs
       animated
       type="line"
-      class="w-4/5 h-full"
+      class="w-5/6 h-full"
       :tab-style="labelStyle"
       justify-content="space-evenly"
       pane-wrapper-class="h-full"

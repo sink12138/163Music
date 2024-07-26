@@ -15,7 +15,7 @@ const hover = ref(-1)
         <span style="padding: 0 40px 0 5px">##</span>
         <span>标题</span>
       </div>
-      <div class="w-2/5 flex justify-between">
+      <div class="w-7/20 flex justify-between">
         <span>歌曲数</span>
         <span>创建者</span>
         <span>播放数</span>
