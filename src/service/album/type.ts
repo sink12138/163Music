@@ -1,6 +1,6 @@
 interface albumTopReq {
-  area?: 'ALL' | 'ZH' | 'EA' | 'KR' | 'JP'
-  type?: 'new' | 'hot'
+  area?: string
+  type?: string
   year?: number
   month?: number
 }

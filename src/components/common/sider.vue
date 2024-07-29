@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { h } from 'vue'
+import { h, watch, ref } from 'vue'
 import type { Component } from 'vue'
+import { useRoute } from 'vue-router'
 import type { MenuOption } from 'naive-ui'
 import { NMenu, NIcon } from 'naive-ui'
 import { RouterLink } from 'vue-router'
@@ -43,6 +44,19 @@ const menuOptions: MenuOption[] = [
     icon: renderIcon(AboutIcon)
   }
 ]
+
+const route = useRoute()
+const menuKey = ref()
+watch(
+  () => route.path,
+  () => {
+    menuKey.value = route.fullPath.split('/')[1]
+  }
+)
+
+const handleUpdate = (key: string) => {
+  menuKey.value = key
+}
 </script>
 
 <template>
@@ -50,11 +64,16 @@ const menuOptions: MenuOption[] = [
     :options="menuOptions"
     class="text-xl font-bold w-full h-full py-6 bg-red-50"
     :icon-size="24"
+    v-model:value="menuKey"
+    @update:value="handleUpdate"
   ></n-menu>
 </template>
 
 <style lang="scss" scoped>
 .n-menu {
   font-family: '163Music';
+}
+.n-menu-item-content:hover {
+  background-color: #fff;
 }
 </style>

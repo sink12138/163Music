@@ -84,3 +84,10 @@ export function userLogout() {
     method: 'get'
   })
 }
+
+export function userStatus() {
+  return axios({
+    url: '/login/status',
+    method: 'get'
+  })
+}

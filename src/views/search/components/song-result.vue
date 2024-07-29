@@ -49,7 +49,7 @@ onMounted(() => {
     <div class="h-full flex flex-col justify-between">
       <SongList :table-data="songs" />
       <n-pagination
-        class="self-end"
+        class="self-end my-2"
         v-model:page="page"
         v-model:page-size="pageSize"
         @update:page="searchSong(props.keyword)"

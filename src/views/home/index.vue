@@ -8,13 +8,7 @@ import { playlistPersonalized, playlistTop, playlistTopHighquality } from '@/ser
 import { songPersonalized } from '@/service/song'
 import { onMounted, reactive, ref } from 'vue'
 
-const loading = ref<boolean>(false)
 const playlistTopData = ref<Array<any>>()
-const artistsTopData = ref<Array<any>>()
-const playlistPersonalizedData = ref<Array<any>>()
-const songsPersonalizedData = ref<Array<any>>()
-const playlistHighqualityData = ref<Array<any>>()
-
 const getPlaylistTop = async () => {
   const params = reactive({
     order: 'hot',
@@ -22,30 +16,54 @@ const getPlaylistTop = async () => {
     limit: 18,
     offset: 0
   })
-  playlistTopData.value = (await playlistTop(params)).data.playlists
+  try {
+    playlistTopData.value = (await playlistTop(params)).data.playlists
+  } catch (error) {
+    console.log(error)
+  }
 }
 
+const artistsTopData = ref<Array<any>>()
 const getArtistsTop = async () => {
   const params = reactive({
     limit: 24,
     offset: 0
   })
-  artistsTopData.value = (await artistTop(params)).data.artists
+  try {
+    artistsTopData.value = (await artistTop(params)).data.artists
+  } catch (error) {
+    console.log(error)
+  }
 }
 
+const playlistPersonalizedData = ref<Array<any>>()
 const getPlaylistPersonalized = async () => {
   let limit: number = 18
-  playlistPersonalizedData.value = (await playlistPersonalized(limit)).data.result
+  try {
+    playlistPersonalizedData.value = (await playlistPersonalized(limit)).data.result
+  } catch (error) {
+    console.log(error)
+  }
 }
 
+const songsPersonalizedData = ref<Array<any>>()
 const getSongsPersonalized = async () => {
   let limit: number = 18
-  songsPersonalizedData.value = (await songPersonalized(limit)).data.result
+  try {
+    songsPersonalizedData.value = (await songPersonalized(limit)).data.result
+  } catch (error) {
+    console.log(error)
+  }
 }
 
+const playlistHighqualityData = ref<Array<any>>()
 const getPlaylistHighquality = async () => {
   let limit: number = 18
-  playlistHighqualityData.value = (await playlistTopHighquality(undefined, limit)).data.playlists
+  try {
+    playlistHighqualityData.value = (await playlistTopHighquality(undefined, limit)).data.playlists
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const timeout = async () => {
@@ -56,24 +74,27 @@ const timeout = async () => {
   console.log('time out!')
 }
 
-onMounted(async () => {
-  loading.value = true
+const loading = ref<boolean>(false)
+const fetchData = async () => {
+  if (loading.value) return
   try {
-    await getPlaylistTop()
-    await getArtistsTop()
-    await getPlaylistPersonalized()
-    await getSongsPersonalized()
-    await getPlaylistHighquality()
-    console.log(playlistTopData.value)
-    console.log(artistsTopData.value)
-    console.log(playlistPersonalizedData.value)
-    console.log(songsPersonalizedData.value)
-    console.log(playlistHighqualityData.value)
+    loading.value = true
+    await Promise.all([
+      getPlaylistTop(),
+      getArtistsTop(),
+      getPlaylistPersonalized(),
+      getSongsPersonalized(),
+      getPlaylistHighquality()
+    ])
   } catch (error) {
     console.warn(error)
   } finally {
     loading.value = false
   }
+}
+
+onMounted(() => {
+  fetchData()
 })
 </script>
 
@@ -82,11 +103,25 @@ onMounted(async () => {
     <div v-if="!loading" class="page-container">
       <div class="title">热门歌单</div>
       <BaseCarousel v-if="playlistTopData" :total="playlistTopData.length" :slides="6">
-        <PlaylistCard v-for="playlist in playlistTopData" :playlist="playlist" />
+        <PlaylistCard
+          v-for="item in playlistTopData"
+          :item="{
+            id: item.id,
+            name: item.name,
+            picUrl: item.coverImgUrl,
+            playCount: item.playCount,
+            trackCount: item.trackCount,
+            tags: item.tags
+          }"
+        />
       </BaseCarousel>
       <div class="title">热门歌手</div>
-      <BaseCarousel v-if="artistsTopData" :total="artistsTopData.length / 2" :slides="4">
-        <div v-for="offset in artistsTopData.length / 2">
+      <BaseCarousel
+        v-if="artistsTopData"
+        :total="Math.floor(artistsTopData.length / 2)"
+        :slides="4"
+      >
+        <div v-for="offset in Math.floor(artistsTopData.length / 2)">
           <ArtistCard
             v-for="artist in artistsTopData.slice((offset - 1) * 2, offset * 2)"
             :artist="artist"
@@ -99,18 +134,35 @@ onMounted(async () => {
         :total="playlistPersonalizedData.length"
         :slides="6"
       >
-        <PlaylistCard v-for="playlist in playlistPersonalizedData" :playlist="playlist" />
+        <PlaylistCard
+          v-for="item in playlistPersonalizedData"
+          :item="{
+            id: item.id,
+            name: item.name,
+            picUrl: item.picUrl,
+            playCount: item.playCount,
+            trackCount: item.trackCount,
+            tags: item.tags
+          }"
+        />
       </BaseCarousel>
-      <div class="title">新歌速递</div>
+      <div class="title">新歌推荐</div>
       <BaseCarousel
         v-if="songsPersonalizedData"
-        :total="songsPersonalizedData.length / 3"
+        :total="Math.floor(songsPersonalizedData.length / 3)"
         :slides="2"
       >
-        <div v-for="offset in songsPersonalizedData.length / 3">
+        <div v-for="offset in Math.floor(songsPersonalizedData.length / 3)">
           <SongCard
-            v-for="(song, index) in songsPersonalizedData.slice((offset - 1) * 3, offset * 3)"
-            :item="song"
+            v-for="(item, index) in songsPersonalizedData.slice((offset - 1) * 3, offset * 3)"
+            :item="{
+              id: item.id,
+              picUrl: item.picUrl,
+              name: item.name,
+              fee: item.song.fee,
+              artists: item.song.artists,
+              album: item.song.album
+            }"
             :index="index + (offset - 1) * 3"
           />
         </div>
@@ -121,7 +173,17 @@ onMounted(async () => {
         :total="playlistHighqualityData.length"
         :slides="6"
       >
-        <PlaylistCard v-for="playlist in playlistHighqualityData" :playlist="playlist" />
+        <PlaylistCard
+          v-for="item in playlistHighqualityData"
+          :item="{
+            id: item.id,
+            name: item.name,
+            picUrl: item.coverImgUrl,
+            playCount: item.playCount,
+            trackCount: item.trackCount,
+            tags: item.tags
+          }"
+        />
       </BaseCarousel>
     </div>
   </n-spin>

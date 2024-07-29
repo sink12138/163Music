@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
 import { Md5 } from 'ts-md5'
-import { cellphoneLogin, emailLogin, userLogout } from '@/service/login'
+import { cellphoneLogin, emailLogin, userLogout, userStatus } from '@/service/login'
 import useLoading from '@/hooks/use-loading'
 
 export const useAuthStore = defineStore(
@@ -10,21 +10,21 @@ export const useAuthStore = defineStore(
     // state
     const authInfo = reactive({
       authState: 0,
-      cookie: '',
       profile: {} as any
     })
+    const cookies = ref<string>('')
     const { loading: loginLoading, startLoading, endLoading } = useLoading()
 
     //reset
     function $reset() {
       authInfo.authState = 0
-      authInfo.cookie = ''
       authInfo.profile = {}
+      cookies.value = ''
     }
 
     // getters
     const getAuthState = computed(() => authInfo.authState)
-    const getCookie = computed(() => authInfo.cookie)
+    const getCookie = computed(() => cookies.value)
     const getAvatar = computed(() => authInfo.profile.avatarUrl)
 
     // actions
@@ -46,8 +46,8 @@ export const useAuthStore = defineStore(
         console.log(result)
         if (result.code == 200) {
           authInfo.authState = result.loginType
-          authInfo.cookie = encodeURIComponent(result.cookie)
           authInfo.profile = result.profile
+          cookies.value = encodeURIComponent(result.cookie)
           console.log(authInfo)
         }
       } catch (error) {
@@ -65,8 +65,8 @@ export const useAuthStore = defineStore(
         const result: any = await emailLogin(email, password)
         if (result.code === 200) {
           authInfo.authState = result.loginType
-          authInfo.cookie = encodeURIComponent(result.cookie)
           authInfo.profile = result.profile
+          cookies.value = encodeURIComponent(result.cookie)
           console.log(authInfo)
         }
       } catch (error) {
@@ -93,6 +93,20 @@ export const useAuthStore = defineStore(
       endLoading()
     }
 
+    async function loginStatus() {
+      startLoading()
+
+      try {
+        const result: any = (await userStatus()).data
+        console.log(result)
+      } catch (error) {
+        console.warn(error)
+      } finally {
+      }
+
+      endLoading()
+    }
+
     return {
       authInfo,
       loginLoading,
@@ -102,6 +116,7 @@ export const useAuthStore = defineStore(
       loginByPhone,
       loginByEmail,
       logout,
+      loginStatus,
       $reset
     }
   },

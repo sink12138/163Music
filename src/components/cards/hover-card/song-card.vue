@@ -37,13 +37,13 @@ const hover = ref(false)
         </div>
         <div class="item-description">
           <n-ellipsis :tooltip="false">
-            <span v-if="item.song.fee == 1" class="item-tag">VIP</span>
-            <span text v-for="(artist, arIndex) in item.song.artists">
+            <span v-if="item.fee == 1" class="item-tag">VIP</span>
+            <span text v-for="(artist, arIndex) in item.artists">
               <span v-if="arIndex != 0">/</span>
               <n-button text>{{ artist.name }}</n-button>
             </span>
             <span> —— </span>
-            <n-button text>{{ item.song.album.name }}</n-button>
+            <n-button text>{{ item.album.name }}</n-button>
           </n-ellipsis>
         </div>
       </div>
@@ -63,7 +63,7 @@ const hover = ref(false)
       <n-button text style="font-size: 24px">
         <n-icon> <FavoriteBorderRound /> </n-icon>
       </n-button>
-      <div class="item-duration">{{ getDuration(item.song.duration) }}</div>
+      <div class="item-duration">{{ getDuration(item.duration) }}</div>
     </div>
   </div>
 </template>

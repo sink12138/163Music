@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="hover-card" @click="$router.push({ path: '/artist', query: { id: artist.id } })">
+  <div class="artist-card" @click="$router.push({ path: '/artist', query: { id: artist.id } })">
     <div class="left-pic"><img :src="artist.img1v1Url + '?param=144y144'" /></div>
     <div class="right-content">
       <n-ellipsis class="text-base">{{ artist.name }}</n-ellipsis>
@@ -16,7 +16,7 @@ defineProps<{
 </template>
 
 <style lang="scss" scoped>
-.hover-card {
+.artist-card {
   height: 120px;
   width: 270px;
   display: flex;
@@ -59,7 +59,7 @@ defineProps<{
     }
   }
 }
-.hover-card:hover {
+.artist-card:hover {
   background-color: rgb(254 202 202);
   border-radius: 6px;
   transition: 300ms cubic-bezier(0.075, 0.82, 0.165, 1);

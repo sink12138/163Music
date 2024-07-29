@@ -23,6 +23,9 @@ const handleCloseDialog = () => {
 const handleLogout = async () => {
   await authStore.logout()
 }
+const handleStatus = async () => {
+  await authStore.loginStatus()
+}
 </script>
 
 <template>
@@ -84,7 +87,7 @@ const handleLogout = async () => {
         />
       </template>
       <n-list hoverable clickable class="font-music avatar-menu">
-        <n-list-item> 个人空间 </n-list-item>
+        <n-list-item @click="handleStatus"> 个人空间 </n-list-item>
         <n-list-item> 修改信息 </n-list-item>
         <n-list-item> 私信通知 </n-list-item>
         <n-list-item @click="handleLogout" class="text-red-400"> 退出登录 </n-list-item>

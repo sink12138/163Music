@@ -32,3 +32,10 @@ export function albumTop(params: albumTopReq) {
     params: params
   })
 }
+
+export function albumNew() {
+  return axios({
+    url: '/album/newest',
+    method: 'get'
+  })
+}
