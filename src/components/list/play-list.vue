@@ -5,7 +5,6 @@ import { ref } from 'vue'
 defineProps<{
   tableData: any
 }>()
-const hover = ref(-1)
 </script>
 
 <template>
@@ -21,7 +20,7 @@ const hover = ref(-1)
         <span>播放数</span>
       </div>
     </div>
-    <n-infinite-scroll class="h-full" :distance="10" @load="$emit('loadData')">
+    <n-infinite-scroll class="h-full" :distance="20" @load="$emit('loadData')">
       <div v-for="(item, index) in tableData">
         <PlaylistItem :item="item" :index="index" />
       </div>

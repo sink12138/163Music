@@ -8,5 +8,9 @@
       "path": "./tsconfig.app.json"
     }
   ],
-  "type": ["node"]
+  "type": ["node"],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
+  }
 }

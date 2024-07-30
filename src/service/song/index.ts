@@ -39,3 +39,11 @@ export function songsTop(type: number = 0) {
     params: { type: type }
   })
 }
+
+export function getLyric(id: string) {
+  return axios({
+    url: '/lyric',
+    method: 'get',
+    params: { id: id }
+  })
+}

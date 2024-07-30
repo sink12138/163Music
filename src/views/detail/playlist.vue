@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, h, render } from 'vue'
 import { useRoute } from 'vue-router'
 import { playlistDetail } from '@/service/playlist'
 import { getCounts } from '@/utils/count'
@@ -7,6 +7,7 @@ import { getTime } from '@/utils/time'
 import { PlayArrowRound } from '@vicons/material'
 import SongList from '@/components/list/song-list.vue'
 import { useNotification } from 'naive-ui'
+import CommentList from '@/components/list/comment-list.vue'
 
 const route = useRoute()
 const notification = useNotification()
@@ -24,7 +25,11 @@ const info = reactive({
   commentCount: 0 as number,
   subscribedCount: 0 as number
 })
+
 const tracks = ref<Array<any>>([])
+const tableData = ref<Array<any>>([])
+const offset = ref<number>(20)
+const limit = ref<number>(20)
 const getPlaylistDetail = async (id: string) => {
   try {
     const result = (await playlistDetail(id)).data.playlist
@@ -39,15 +44,38 @@ const getPlaylistDetail = async (id: string) => {
     info.commentCount = result.commentCount
     info.subscribedCount = result.subscribedCount
     tracks.value = result.tracks
+    tableData.value = tracks.value.slice(0, limit.value)
   } catch (error) {
     console.warn('error', error)
   } finally {
   }
 }
 
-const handleExpand = () => {
-  notification.create({ description: info.description })
+const resetTracks = () => {
+  if (loading.value || tableData.value.length <= limit.value) return
+  loading.value = true
+  tableData.value = tracks.value.slice(0, limit.value)
+  offset.value = 0
+  loading.value = false
 }
+
+const lazyTracks = () => {
+  if (loading.value) return
+  loading.value = true
+  tableData.value.push(...tracks.value.slice(offset.value, offset.value + limit.value))
+  offset.value += limit.value
+  loading.value = false
+}
+
+const handleExpand = () => {
+  notification.create({ title: () => h('b', {}, info.name), content: info.description })
+}
+
+const tabVnode = (name: string, count: string | number) =>
+  h('div', {}, [
+    h('span', { class: 'font-music text-xl' }, name),
+    h('span', { class: 'text-xs' }, count)
+  ])
 
 const loading = ref<boolean>(false)
 const fetchData = async () => {
@@ -86,22 +114,17 @@ onMounted(() => {
         </div>
         <div class="banner-right">
           <div class="banner-title">{{ info.name }}</div>
-          <div class="banner-description">
-            <n-ellipsis line-clamp="3" :tooltip="false">
+          <div class="banner-description cursor-pointer" @click="handleExpand">
+            <n-ellipsis line-clamp="2" :tooltip="false">
               {{ info.description }}
             </n-ellipsis>
-            <span
-              class="self-end whitespace-nowrap text-red-400 cursor-pointer"
-              @click="handleExpand"
-              >详情</span
-            >
           </div>
           <div class="banner-create">
             <div class="banner-creator">
               <n-avatar round size="small" :src="info.creator.avatarUrl" />
-              <span>{{ info.creator.nickname }}</span>
+              <n-button text class="mx-2">{{ info.creator.nickname }}</n-button>
             </div>
-            <div class="banner-tags" v-if="info.tags">
+            <div class="banner-tags" v-if="info.tags.length > 0">
               <div>标签:</div>
               <span v-for="(tag, index) in info.tags">
                 <span>{{ tag }}</span>
@@ -112,10 +135,34 @@ onMounted(() => {
               <span>{{ getTime(info.createTime) }}创建</span>
             </div>
           </div>
+          <div class="banner-buttons">
+            <n-button type="error">
+              <n-icon size="large"><PlayArrowRound /></n-icon>
+              播放全部
+            </n-button>
+            <n-button ghost>收藏</n-button>
+            <n-button ghost>下载</n-button>
+          </div>
         </div>
       </div>
-      <div class="w-5/6">
-        <SongList :table-data="tracks"></SongList>
+      <div class="page-content">
+        <n-tabs
+          animated
+          type="line"
+          class="h-full"
+          pane-wrapper-class="h-full"
+          pane-class="h-full"
+          @update:value="resetTracks"
+        >
+          <n-tab-pane name="song" :tab="tabVnode('歌曲', info.trackCount)">
+            <n-infinite-scroll class="h-full overflow-scroll" :distance="40" @load="lazyTracks">
+              <SongList :table-data="tableData"></SongList>
+            </n-infinite-scroll>
+          </n-tab-pane>
+          <n-tab-pane name="comment" :tab="tabVnode('评论', getCounts(info.commentCount))">
+            <CommentList :id="playlistId" type="2" />
+          </n-tab-pane>
+        </n-tabs>
       </div>
     </div>
   </n-spin>
@@ -134,8 +181,8 @@ onMounted(() => {
     display: flex;
     gap: 40px;
     .banner-left {
-      height: 200px;
-      width: 200px;
+      height: 170px;
+      width: 170px;
       border-radius: 10%;
       background-size: cover;
       .play-counts {
@@ -149,6 +196,7 @@ onMounted(() => {
       width: calc(100% - 240px);
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       gap: 10px;
       .banner-title {
         font-size: 22px;
@@ -174,7 +222,17 @@ onMounted(() => {
           }
         }
       }
+      .banner-buttons {
+        display: flex;
+        gap: 12px;
+      }
     }
+  }
+  .page-content {
+    width: 80%;
+    position: sticky;
+    top: 0;
+    height: calc(100% - 160px);
   }
 }
 </style>
