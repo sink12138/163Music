@@ -47,3 +47,11 @@ export function getLyric(id: string) {
     params: { id: id }
   })
 }
+
+export function songUrl(id: string) {
+  return axios({
+    url: '/song/url/v1',
+    method: 'get',
+    params: { id: id, level: 'standard' }
+  })
+}

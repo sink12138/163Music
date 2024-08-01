@@ -13,3 +13,11 @@ export const getTime = (time: number): any => {
   var date = new Date(time)
   return date.toLocaleDateString()
 }
+
+export const formatSeconds = (time: number): any => {
+  let mins = Math.floor(time / 60).toString()
+  if (mins.length === 1) mins = '0' + mins
+  let secs = Math.floor(time % 60).toString()
+  if (secs.length === 1) secs = '0' + secs
+  return `${mins}:${secs}`
+}
