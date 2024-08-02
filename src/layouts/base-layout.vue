@@ -28,7 +28,7 @@
     display: flex;
   }
   .layout-body {
-    min-height: calc(100% - 104px);
+    min-height: calc(100% - 116px);
     max-height: calc(100% - 56px);
     width: 100%;
     display: flex;
