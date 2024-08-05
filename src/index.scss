@@ -46,6 +46,10 @@ body {
   box-sizing: content-box;
 }
 
+.n-slider-handles {
+  touch-action: none !important;
+}
+
 .font-music {
   font-family: '163Music';
   font-weight: bold;

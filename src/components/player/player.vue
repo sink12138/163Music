@@ -27,6 +27,12 @@ const setCurrentTime = (val: any) => {
   }
 }
 
+const setVolume = (val: any) => {
+  if (audio.value != null) {
+    audio.value.volume = val / 100
+  }
+}
+
 const play = () => {
   isPlay.value = true
   audio.value.play()
@@ -41,6 +47,7 @@ onMounted(() => {
   emitter.on('pause', () => pause())
   emitter.on('music', (val) => (url.value = val))
   emitter.on('setCurrentTime', (val) => setCurrentTime(val))
+  emitter.on('setVolume', (val) => setVolume(val))
 })
 </script>
 

@@ -2,18 +2,18 @@
 import emitter from '@/utils/mitt'
 import { formatSeconds } from '@/utils/time'
 import { currentTimeKey, durationKey, isPlayKey } from '@/symbols'
-import { inject, ref, watch } from 'vue'
+import { computed, inject, reactive, ref, watch } from 'vue'
 import {
   PlayCircleFilledRound,
   PauseCircleFilledRound,
   SkipNextRound,
   SkipPreviousRound,
-  TransformRound,
-  LoopRound
+  VolumeUpRound,
+  VolumeOffRound
 } from '@vicons/material'
-import DefaultLoop from '@/assets/image/default-loop.vue'
-import RandomLoop from '@/assets/image/random-loop.vue'
-import SingleLoop from '@/assets/image/single-loop.vue'
+import DefaultLoop from '@/assets/image/default-loop.svg'
+import RandomLoop from '@/assets/image/random-loop.svg'
+import SingleLoop from '@/assets/image/single-loop.svg'
 
 const hover = ref(false)
 const isDraging = ref(false)
@@ -21,6 +21,35 @@ const currentTime = inject(currentTimeKey, ref(0))
 const duration = inject(durationKey, ref(60))
 const isPlay = inject(isPlayKey, ref(false))
 const percentage = ref(0)
+const loop = ref(0)
+const volume = reactive({
+  val: 50,
+  off: false,
+  temp: 50
+})
+
+const handleVolumeOff = () => {
+  if (volume.off == true) {
+    volume.off = false
+    volume.val = volume.temp
+  } else {
+    volume.off = true
+    volume.temp = volume.val
+    volume.val = 0
+  }
+}
+
+watch(
+  () => volume.val,
+  (newV) => {
+    if (newV == 0) {
+      volume.off = true
+    } else {
+      volume.off = false
+    }
+    emitter.emit('setVolume', newV)
+  }
+)
 
 const pause = () => {
   console.log('pause')
@@ -62,15 +91,6 @@ const setCurrentTime = () => {
       <n-button :focusable="false" color="#fca5a5" text>
         <n-icon :size="36"><SkipNextRound /></n-icon>
       </n-button>
-      <n-button :focusable="false" color="#fca5a5" text>
-        <n-icon :size="36"><DefaultLoop /></n-icon>
-      </n-button>
-      <n-button :focusable="false" color="#fca5a5" text>
-        <n-icon :size="36"><RandomLoop /></n-icon>
-      </n-button>
-      <n-button :focusable="false" color="#fca5a5" text>
-        <n-icon :size="36"><SingleLoop /></n-icon>
-      </n-button>
     </div>
     <div class="player-progress">
       <span>{{ formatSeconds(currentTime) }}</span>
@@ -87,6 +107,52 @@ const setCurrentTime = () => {
       </n-slider>
       <span>{{ formatSeconds(duration) }}</span>
     </div>
+    <div class="player-tools">
+      <div
+        v-if="loop == 0"
+        @click="loop = (loop + 1) % 3"
+        class="flex items-center cursor-pointer mr-5"
+      >
+        <n-image width="24" :src="DefaultLoop" preview-disabled></n-image>
+      </div>
+      <div
+        v-if="loop == 1"
+        @click="loop = (loop + 1) % 3"
+        class="flex items-center cursor-pointer mr-5"
+      >
+        <n-image width="24" :src="RandomLoop" preview-disabled></n-image>
+      </div>
+      <div
+        v-if="loop == 2"
+        @click="loop = (loop + 1) % 3"
+        class="flex items-center cursor-pointer mr-5"
+      >
+        <n-image width="24" :src="SingleLoop" preview-disabled></n-image>
+      </div>
+      <n-popover
+        trigger="hover"
+        display-directive="show"
+        :duration="300"
+        style="width: 60px"
+        content-class="flex flex-col items-center"
+      >
+        <template #trigger>
+          <n-button @click="handleVolumeOff" :focusable="false" color="#fca5a5" text>
+            <n-icon v-if="volume.off" :size="32"><VolumeOffRound /></n-icon>
+            <n-icon v-else :size="32"><VolumeUpRound /></n-icon>
+          </n-button>
+        </template>
+        <n-slider
+          style="height: 120px; width: 32px"
+          :tooltip="false"
+          v-model:value="volume.val"
+          vertical
+        >
+          <template #thumb>&nbsp;</template>
+        </n-slider>
+        <span class="text-xs">{{ volume.val }}%</span>
+      </n-popover>
+    </div>
     <div class="player-tracks"></div>
   </div>
 </template>
@@ -98,7 +164,7 @@ const setCurrentTime = () => {
   background-color: #fee2e2;
   border-top: 1px solid #262626;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   .player-tools {
     display: flex;
