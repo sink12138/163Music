@@ -3,8 +3,8 @@ import emitter from '@/utils/mitt'
 import { onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { songDetail, getLyric, songUrl } from '@/service/song'
-import PlayerLyric from '@/components/player/player-lyric.vue'
 import { parseLyric } from '@/utils/parse-lyric'
+import PlayerPage from '@/components/player/player-page.vue'
 
 const route = useRoute()
 const songId = ref<string>('')
@@ -13,7 +13,7 @@ const info = reactive({ detail: {}, lyric: [] as any, url: '' as string })
 const getSongDetail = async (id: string) => {
   const result = (await songDetail(id)).data
   const lyric = (await getLyric(id)).data.lrc
-  info.detail = result
+  info.detail = result.songs[0]
   info.lyric = parseLyric(lyric.lyric)
 }
 
@@ -45,7 +45,7 @@ onMounted(() => {
 
 <template>
   <n-spin :show="loading" class="h-full" content-class="h-full">
-    <PlayerLyric :lyric="info.lyric"></PlayerLyric>
+    <PlayerPage :detail="info.detail" :lyric="info.lyric" />
   </n-spin>
 </template>
 

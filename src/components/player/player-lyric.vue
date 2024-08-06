@@ -4,7 +4,6 @@ import { currentTimeKey } from '@/symbols'
 import { inject, onMounted, reactive, ref, watch, type Ref } from 'vue'
 import { PlayArrowRound } from '@vicons/material'
 import { formatSeconds } from '@/utils/time'
-import { defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{
   lyric: Array<any>
@@ -54,12 +53,14 @@ watch(
 <template>
   <div class="player-lyric">
     <div class="lyric-scroll" ref="scroll" @scroll="handleScroll">
+      <n-divider></n-divider>
       <div
         :class="'lyric-item ' + (lyricIndex == index ? 'lyric-item-current' : '')"
         v-for="(item, index) in lyric"
         @mouseover="hover = index"
         @mouseleave="hover = -1"
       >
+        <n-ellipsis>{{ item[1] }}</n-ellipsis>
         <Transition name="fade">
           <div :class="hover == index ? 'opacity-100' : 'opacity-0'">
             <n-button @click="setCurrentTime(item[0])" dashed size="tiny">
@@ -68,28 +69,37 @@ watch(
             </n-button>
           </div>
         </Transition>
-        <n-ellipsis class="pl-2">{{ item[1] }}</n-ellipsis>
       </div>
+      <n-divider></n-divider>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .player-lyric {
-  height: 100%;
+  height: 60%;
   .lyric-scroll {
     width: 100%;
     height: 100%;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 10%,
+      rgba(0, 0, 0, 1) 90%,
+      rgba(0, 0, 0, 0)
+    );
     .lyric-item {
       width: 100%;
       scroll-snap-align: center;
       scroll-snap-stop: normal;
-      margin: 8px;
+      margin: 8px 0;
       font-size: 16px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
+      color: #404040;
     }
     .lyric-item-current {
       font-size: 18px;
