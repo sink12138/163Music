@@ -1,31 +1,52 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import emitter from '@/utils/mitt'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { songDetail } from '@/service/song'
+import { songDetail, getLyric, songUrl } from '@/service/song'
+import { parseLyric } from '@/utils/parse-lyric'
+import PlayerPage from '@/components/player/player-page.vue'
 
 const route = useRoute()
 const songId = ref<string>('')
 
-const info = reactive({ detail: {} })
-function getSongDetail(id: string) {
-  const fetchData = async () => {
-    try {
-      const result = (await songDetail(id)).data
-      info.detail = result
-    } catch (error) {
-      console.warn('error', error)
-    } finally {
-    }
+const info = reactive({ detail: {}, lyric: [] as any, url: '' as string })
+const getSongDetail = async (id: string) => {
+  const result = (await songDetail(id)).data
+  const lyric = (await getLyric(id)).data.lrc
+  info.detail = result.songs[0]
+  info.lyric = parseLyric(lyric.lyric)
+}
+
+const getMusicUrl = async (id: string) => {
+  const result = (await songUrl(id)).data.data
+  info.url = result[0].url
+}
+
+const loading = ref<boolean>(false)
+const fetchData = async () => {
+  if (loading.value) return
+  try {
+    loading.value = true
+    await Promise.all([getSongDetail(songId.value), getMusicUrl(songId.value)])
+    console.log(info)
+    emitter.emit('music', info.url)
+  } catch (error) {
+    console.warn(error)
+  } finally {
+    loading.value = false
   }
-  fetchData()
 }
 
 onMounted(() => {
   songId.value = route.query.id as string
-  getSongDetail(songId.value)
+  fetchData()
 })
 </script>
 
 <template>
-  <div>{{ info.detail }}</div>
+  <n-spin :show="loading" class="h-full" content-class="h-full">
+    <PlayerPage :detail="info.detail" :lyric="info.lyric" />
+  </n-spin>
 </template>
+
+<style lang="scss" scoped></style>

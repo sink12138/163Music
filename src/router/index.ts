@@ -9,6 +9,11 @@ const router = createRouter({
       component: () => import('@/views/home/index.vue')
     },
     {
+      path: '/about',
+      name: 'about',
+      component: () => import('@/views/about/index.vue')
+    },
+    {
       path: '/explore',
       name: 'explore',
       component: () => import('@/views/explore/index.vue')
@@ -19,14 +24,39 @@ const router = createRouter({
       component: () => import('@/views/leaderboard/index.vue')
     },
     {
-      path: '/user',
-      name: 'user',
-      component: () => import('@/views/user/index.vue')
+      path: '/favor',
+      name: 'favor',
+      component: () => import('@/views/favor/index.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('@/views/search/index.vue')
     },
     {
       path: '/song',
       name: 'song',
       component: () => import('@/views/detail/song.vue')
+    },
+    {
+      path: '/album',
+      name: 'album',
+      component: () => import('@/views/detail/album.vue')
+    },
+    {
+      path: '/artist',
+      name: 'artist',
+      component: () => import('@/views/detail/artist.vue')
+    },
+    {
+      path: '/playlist',
+      name: 'playlist',
+      component: () => import('@/views/detail/playlist.vue')
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import('@/views/detail/user.vue')
     }
   ]
 })
